@@ -1,17 +1,26 @@
 package com.mp.notesapp
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mp.notes.DatabaseHelper
+import com.mp.notes.MainActivity
 import com.mp.notes.R
 import com.mp.notes.note
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.notecard.*
 import kotlinx.android.synthetic.main.notecard.view.*
+import kotlinx.android.synthetic.main.notecard.view.delete
 import org.w3c.dom.Text
 
-class NoteAdapter(private val cardlist: ArrayList<note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     class NoteViewHolder(cardView: View): RecyclerView.ViewHolder(cardView) {
         val editView: ImageView = cardView.edit
@@ -25,6 +34,34 @@ class NoteAdapter(private val cardlist: ArrayList<note>) : RecyclerView.Adapter<
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.notecard,
             parent, false)
+
+        var listNotes = ArrayList<note>()
+
+        itemView.delete.setOnClickListener{
+            Toast.makeText(context, "Clicked on Edit", Toast.LENGTH_LONG).show()
+
+            val db = DatabaseHelper(context)
+            db.delete(itemView.title.text.toString(), itemView.desc.text.toString())
+            val cursor = db.getNotes()
+
+            cardlist.clear()
+
+
+            while(cursor.moveToNext()){
+                println(cursor.getString(0))
+                println(cursor.getString(1))
+                println(cursor.getString(2))
+                cardlist.add(note(cursor.getString(1),cursor.getString(2)))
+            }
+            notifyDataSetChanged()
+//            var activity = MainActivity()
+//            activity.reload()
+//            itemView.adapter = NoteAdapter(listNotes,this)
+//            recycler_view.layoutManager = LinearLayoutManager(this)
+//            recycler_view.setHasFixedSize(true)
+//            var main = MainActivity()
+//            main.updateUI(listNotes)
+        }
 
         return NoteViewHolder(itemView)
     }
