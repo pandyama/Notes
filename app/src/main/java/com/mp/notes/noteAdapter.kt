@@ -64,6 +64,9 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
 
         itemView.edit.setOnClickListener{
             var intent = Intent(itemView.context, AddNotes::class.java)
+            intent.putExtra("edit",true)
+            intent.putExtra("Name",itemView.title.text.toString())
+            intent.putExtra("Description",itemView.desc.text.toString())
             itemView.context.startActivity(intent)
         }
 

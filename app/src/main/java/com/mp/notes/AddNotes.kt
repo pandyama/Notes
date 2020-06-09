@@ -10,9 +10,19 @@ import kotlinx.android.synthetic.main.activity_notes_add.*
 
 class AddNotes : AppCompatActivity() {
 
+    var edit = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes_add)
+
+        var bundle = intent.extras
+
+        edit = bundle!!.getBoolean("edit")
+        if(edit) {
+            noteName.setText(bundle!!.getString("Name").toString())
+            noteDesc.setText(bundle!!.getString("Description").toString())
+        }
     }
 
     fun endActivity(view: View){
@@ -22,13 +32,18 @@ class AddNotes : AppCompatActivity() {
         values.put("Name",noteName.text.toString())
         values.put("Description", noteDesc.text.toString())
 
-        val ID = dbManager.insert(noteName.text.toString(), noteDesc.text.toString())
-        if( ID > 0 ){
-            Toast.makeText(this, "Added successfully to db", Toast.LENGTH_LONG).show()
+        if(edit){
+            dbManager.update(noteName.text.toString(),noteDesc.text.toString())
             finish()
         }
-        else{
-            Toast.makeText(this, "Cannot add to DB", Toast.LENGTH_LONG).show()
+        else {
+            val ID = dbManager.insert(noteName.text.toString(), noteDesc.text.toString())
+            if (ID > 0) {
+                Toast.makeText(this, "Added successfully to db", Toast.LENGTH_LONG).show()
+                finish()
+            } else {
+                Toast.makeText(this, "Cannot add to DB", Toast.LENGTH_LONG).show()
+            }
         }
 
         //finish()
