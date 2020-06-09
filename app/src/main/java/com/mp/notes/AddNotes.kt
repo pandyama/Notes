@@ -25,6 +25,7 @@ class AddNotes : AppCompatActivity() {
         val ID = dbManager.insert(noteName.text.toString(), noteDesc.text.toString())
         if( ID > 0 ){
             Toast.makeText(this, "Added successfully to db", Toast.LENGTH_LONG).show()
+            finish()
         }
         else{
             Toast.makeText(this, "Cannot add to DB", Toast.LENGTH_LONG).show()

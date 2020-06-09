@@ -22,13 +22,11 @@ class DatabaseHelper(context: Context):
     val context = context
 
     override fun onCreate(db: SQLiteDatabase?) {
-        TODO("Not yet implemented")
         db!!.execSQL(sqlCreateTable)
 
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
         db!!.execSQL("DROP TABLE IF EXISTS $dbName")
         onCreate(db)
     }
@@ -50,7 +48,7 @@ class DatabaseHelper(context: Context):
 
     fun delete(name: String, desc: String){
         val db = this.writableDatabase
-        val res = db.rawQuery("SELECT $COL_0 FROM $dbTable WHERE $COL_1 = '$name' AND $COL_2 = '$desc'", null)
+        val res = db.rawQuery("SELECT $COL_0 FROM $dbTable WHERE $COL_1 = '$name'", null)
         var id = 0
         while(res.moveToNext()){
             Toast.makeText(context, "Found a row ${res.getString(0)}", Toast.LENGTH_LONG).show()

@@ -1,18 +1,17 @@
 package com.mp.notesapp
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mp.notes.DatabaseHelper
-import com.mp.notes.MainActivity
-import com.mp.notes.R
-import com.mp.notes.note
+import com.mp.notes.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.notecard.*
@@ -62,6 +61,12 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
 //            var main = MainActivity()
 //            main.updateUI(listNotes)
         }
+
+        itemView.edit.setOnClickListener{
+            var intent = Intent(itemView.context, AddNotes::class.java)
+            itemView.context.startActivity(intent)
+        }
+
 
         return NoteViewHolder(itemView)
     }

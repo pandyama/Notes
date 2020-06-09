@@ -7,6 +7,7 @@ import android.provider.ContactsContract
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mp.notesapp.NoteAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -53,10 +54,28 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun updateUI(listNote:ArrayList<note>) {
-        listNotes = listNote
-//        adapter.notifyDataSetChanged()
-        recycler_view.adapter!!.notifyDataSetChanged()
+    override fun onResume() {
+        super.onResume()
+        var DatabaseHelper = DatabaseHelper(this)
+        val cursor = DatabaseHelper.getNotes()
+
+        listNotes.clear()
+
+        while (cursor.moveToNext()) {
+            println(cursor.getString(0))
+            println(cursor.getString(1))
+            println(cursor.getString(2))
+            listNotes.add(note(cursor.getString(1), cursor.getString(2)))
+        }
+
+        recycler_view.adapter = adapter
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.setHasFixedSize(true)
+    }
+
+    fun editNote() {
+        var intent = Intent(this, AddNotes::class.java)
+        startActivity(intent)
 
     }
 
@@ -74,7 +93,6 @@ class MainActivity : AppCompatActivity() {
             R.id.addNote -> {
                 //Go to Add page
                 //Inter Process Communication
-
                 var intent = Intent(this, AddNotes::class.java)
                 startActivity(intent)
 
