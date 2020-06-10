@@ -11,6 +11,8 @@ import kotlinx.android.synthetic.main.activity_notes_add.*
 class AddNotes : AppCompatActivity() {
 
     var edit = false
+    var oldName = ""
+    var oldDesc = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,21 @@ class AddNotes : AppCompatActivity() {
         if(edit) {
             noteName.setText(bundle!!.getString("Name").toString())
             noteDesc.setText(bundle!!.getString("Description").toString())
+            oldName = noteName.text.toString()
+            oldDesc = noteDesc.text.toString()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var bundle = intent.extras
+
+        edit = bundle!!.getBoolean("edit")
+        if(edit) {
+            noteName.setText(bundle!!.getString("Name").toString())
+            noteDesc.setText(bundle!!.getString("Description").toString())
+            oldName = noteName.text.toString()
+            oldDesc = noteDesc.text.toString()
         }
     }
 
@@ -33,16 +50,23 @@ class AddNotes : AppCompatActivity() {
         values.put("Description", noteDesc.text.toString())
 
         if(edit){
-            dbManager.update(noteName.text.toString(),noteDesc.text.toString())
+
+            var id = dbManager.getID(oldName, oldDesc)
+
+            dbManager.update(id,noteName.text.toString(),noteDesc.text.toString())
+            println("new note name")
+            println(noteName.text.toString())
+            println("new note desc")
+            println(noteDesc.text.toString())
             finish()
         }
         else {
             val ID = dbManager.insert(noteName.text.toString(), noteDesc.text.toString())
             if (ID > 0) {
-                Toast.makeText(this, "Added successfully to db", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Note created successfully", Toast.LENGTH_LONG).show()
                 finish()
             } else {
-                Toast.makeText(this, "Cannot add to DB", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Failed to save Note", Toast.LENGTH_LONG).show()
             }
         }
 

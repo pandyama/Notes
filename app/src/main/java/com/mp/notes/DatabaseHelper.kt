@@ -58,20 +58,25 @@ class DatabaseHelper(context: Context):
         //return db.delete(dbTable, "ID = ?", arrayOf(id))
     }
 
-    fun update(name: String, desc: String){
+    fun getID(name: String, desc: String): String{
         val db = this.writableDatabase
-        val res = db.rawQuery("SELECT $COL_0 FROM $dbTable WHERE $COL_1 = '$name'", null)
+        val res = db.rawQuery("SELECT $COL_0 FROM $dbTable WHERE $COL_1 = '$name' AND $COL_2 = '$desc'", null)
         var id = ""
         while(res.moveToNext()){
             id = res.getString(0)
         }
+        return id
+    }
 
+    fun update(id: String, name: String, desc: String){
+        val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(COL_0, id)
         contentValues.put(COL_1, name)
         contentValues.put(COL_2, desc)
 
         db.update(dbTable,contentValues, "ID = ?", arrayOf(id))
+
     }
 
 

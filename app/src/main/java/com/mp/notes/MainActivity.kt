@@ -27,16 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//
-//        listNotes.add(note("buy groceries","Lorem ipsum dolor sit " +
-//                "amet, consectetur adipiscing elit, sed do eiusmod" +
-//                " tempor incididunt ut labore et dolore magna aliqua. " +
-//                "Ut enim ad minim veniam\""))
-//        listNotes.add(note("get gas","go to Petro Canada"))
-//        listNotes.add(note("buy gift","go to Erin Mills"))
-//
-
-
         var DatabaseHelper = DatabaseHelper(this)
         val cursor = DatabaseHelper.getNotes()
 
@@ -73,11 +63,11 @@ class MainActivity : AppCompatActivity() {
         recycler_view.setHasFixedSize(true)
     }
 
-    fun editNote() {
-        var intent = Intent(this, AddNotes::class.java)
-        startActivity(intent)
-
-    }
+//    fun editNote() {
+//        var intent = Intent(this, AddNotes::class.java)
+//        startActivity(intent)
+//
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         //gets called automatically when activity fires up
@@ -94,12 +84,15 @@ class MainActivity : AppCompatActivity() {
                 //Go to Add page
                 //Inter Process Communication
                 var intent = Intent(this, AddNotes::class.java)
+                intent.putExtra("edit", false)
+                intent.putExtra("Name", "")
+                intent.putExtra("Description", "")
                 startActivity(intent)
 
             }
-            R.id.app_bar_search -> {
-
-            }
+//            R.id.app_bar_search -> {
+//
+//            }
         }
 
         return super.onOptionsItemSelected(item)

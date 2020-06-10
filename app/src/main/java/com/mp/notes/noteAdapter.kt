@@ -22,8 +22,8 @@ import org.w3c.dom.Text
 class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     class NoteViewHolder(cardView: View): RecyclerView.ViewHolder(cardView) {
-        val editView: ImageView = cardView.edit
-        val deleteView: ImageView = cardView.delete
+//        val editView: ImageView = cardView.edit
+//        val deleteView: ImageView = cardView.delete
         val title: TextView = cardView.title
         val desc: TextView = cardView.desc
 
@@ -34,11 +34,9 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
             R.layout.notecard,
             parent, false)
 
-        var listNotes = ArrayList<note>()
+//        var listNotes = ArrayList<note>()
 
         itemView.delete.setOnClickListener{
-            Toast.makeText(context, "Clicked on Edit", Toast.LENGTH_LONG).show()
-
             val db = DatabaseHelper(context)
             db.delete(itemView.title.text.toString(), itemView.desc.text.toString())
             val cursor = db.getNotes()
@@ -53,13 +51,6 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
                 cardlist.add(note(cursor.getString(1),cursor.getString(2)))
             }
             notifyDataSetChanged()
-//            var activity = MainActivity()
-//            activity.reload()
-//            itemView.adapter = NoteAdapter(listNotes,this)
-//            recycler_view.layoutManager = LinearLayoutManager(this)
-//            recycler_view.setHasFixedSize(true)
-//            var main = MainActivity()
-//            main.updateUI(listNotes)
         }
 
         itemView.edit.setOnClickListener{
