@@ -1,6 +1,8 @@
 package com.mp.notesapp
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -37,20 +39,59 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
 //        var listNotes = ArrayList<note>()
 
         itemView.delete.setOnClickListener{
-            val db = DatabaseHelper(context)
-            db.delete(itemView.title.text.toString(), itemView.desc.text.toString())
-            val cursor = db.getNotes()
 
-            cardlist.clear()
+            lateinit var dialog:AlertDialog
 
 
-            while(cursor.moveToNext()){
-                println(cursor.getString(0))
-                println(cursor.getString(1))
-                println(cursor.getString(2))
-                cardlist.add(note(cursor.getString(1),cursor.getString(2)))
+            // Initialize a new instance of alert dialog builder object
+            val builder = AlertDialog.Builder(context)
+
+            // Set a title for alert dialog
+            builder.setTitle("Are you sure you want to delete?")
+
+            // Set a message for alert dialog
+
+
+            // On click listener for dialog buttons
+            val dialogClickListener = DialogInterface.OnClickListener{_,which ->
+                when(which){
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        val db = DatabaseHelper(context)
+                        db.delete(itemView.title.text.toString(), itemView.desc.text.toString())
+                        val cursor = db.getNotes()
+
+                        cardlist.clear()
+
+
+                        while (cursor.moveToNext()) {
+                            println(cursor.getString(0))
+                            println(cursor.getString(1))
+                            println(cursor.getString(2))
+                            cardlist.add(note(cursor.getString(1), cursor.getString(2)))
+                        }
+                        notifyDataSetChanged()
+                    }
+//                    DialogInterface.BUTTON_NEUTRAL -> Toast("Neutral/Cancel button clicked.")
+                }
             }
-            notifyDataSetChanged()
+
+            builder.setPositiveButton("YES",dialogClickListener)
+
+            // Set the alert dialog negative/no button
+            builder.setNegativeButton("NO",dialogClickListener)
+
+            // Set the alert dialog neutral/cancel button
+
+
+            // Initialize the AlertDialog using builder object
+            dialog = builder.create()
+
+            // Finally, display the alert dialog
+            dialog.show()
+
+
+
+
         }
 
         itemView.edit.setOnClickListener{

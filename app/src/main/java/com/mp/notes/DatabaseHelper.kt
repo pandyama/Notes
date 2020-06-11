@@ -23,7 +23,6 @@ class DatabaseHelper(context: Context):
 
     override fun onCreate(db: SQLiteDatabase?) {
         db!!.execSQL(sqlCreateTable)
-
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -51,7 +50,7 @@ class DatabaseHelper(context: Context):
         val res = db.rawQuery("SELECT $COL_0 FROM $dbTable WHERE $COL_1 = '$name'", null)
         var id = 0
         while(res.moveToNext()){
-            Toast.makeText(context, "Found a row ${res.getString(0)}", Toast.LENGTH_LONG).show()
+//            Toast.makeText(context, "Found a row ${res.getString(0)}", Toast.LENGTH_LONG).show()
             id = res.getString(0).toInt()
         }
         db.delete(dbTable, "ID = $id", null)
