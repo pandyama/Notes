@@ -6,6 +6,9 @@ Features
 - Notes have a title and description
 - Notes are stored in SQLite
 
+Available on Google Play Store
+- https://play.google.com/store/apps/details?id=com.mp.notes
+
 
 Below is the look of the app
 
