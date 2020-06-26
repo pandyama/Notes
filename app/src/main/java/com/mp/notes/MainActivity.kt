@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mp.notesapp.NoteAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     var adapter = NoteAdapter(listNotes,context)
 
+    var defaultLayout = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,12 +39,8 @@ class MainActivity : AppCompatActivity() {
             println(cursor.getString(2))
             listNotes.add(note(cursor.getString(1), cursor.getString(2)))
         }
-
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.setHasFixedSize(true)
-
-
     }
 
     override fun onResume() {
@@ -59,15 +58,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         recycler_view.adapter = adapter
-        recycler_view.layoutManager = LinearLayoutManager(this)
+        if(defaultLayout == 0){
+            recycler_view.layoutManager = LinearLayoutManager(this)
+        }
+        else{
+            recycler_view.layoutManager = GridLayoutManager(this,2)
+        }
+
         recycler_view.setHasFixedSize(true)
     }
-
-//    fun editNote() {
-//        var intent = Intent(this, AddNotes::class.java)
-//        startActivity(intent)
-//
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         //gets called automatically when activity fires up
@@ -90,9 +89,18 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
 
             }
-//            R.id.app_bar_search -> {
-//
-//            }
+            R.id.layout -> {
+                if(defaultLayout == 0){
+                    recycler_view.layoutManager = GridLayoutManager(this,2)
+                    item.setTitle("Linear Layout")
+                    defaultLayout = 1
+                }
+                else{
+                    recycler_view.layoutManager = LinearLayoutManager(this)
+                    item.setTitle("Grid Layout")
+                    defaultLayout = 0
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item)
