@@ -1,30 +1,23 @@
 package com.mp.notesapp
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mp.notes.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.notecard.*
 import kotlinx.android.synthetic.main.notecard.view.*
 import kotlinx.android.synthetic.main.notecard.view.delete
-import org.w3c.dom.Text
 
-class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
+    RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
-    class NoteViewHolder(cardView: View): RecyclerView.ViewHolder(cardView) {
-//        val editView: ImageView = cardView.edit
+    class NoteViewHolder(cardView: View) : RecyclerView.ViewHolder(cardView) {
+        //        val editView: ImageView = cardView.edit
 //        val deleteView: ImageView = cardView.delete
         val title: TextView = cardView.title
         val desc: TextView = cardView.desc
@@ -34,13 +27,14 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
             R.layout.notecard,
-            parent, false)
+            parent, false
+        )
 
 //        var listNotes = ArrayList<note>()
 
-        itemView.delete.setOnClickListener{
+        itemView.delete.setOnClickListener {
 
-            lateinit var dialog:AlertDialog
+            lateinit var dialog: AlertDialog
 
 
             // Initialize a new instance of alert dialog builder object
@@ -53,8 +47,8 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
 
 
             // On click listener for dialog buttons
-            val dialogClickListener = DialogInterface.OnClickListener{_,which ->
-                when(which){
+            val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+                when (which) {
                     DialogInterface.BUTTON_POSITIVE -> {
                         val db = DatabaseHelper(context)
                         db.delete(itemView.title.text.toString(), itemView.desc.text.toString())
@@ -75,10 +69,9 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
                 }
             }
 
-            builder.setPositiveButton("YES",dialogClickListener)
-
+            builder.setPositiveButton("YES", dialogClickListener)
             // Set the alert dialog negative/no button
-            builder.setNegativeButton("NO",dialogClickListener)
+            builder.setNegativeButton("NO", dialogClickListener)
 
             // Set the alert dialog neutral/cancel button
 
@@ -90,15 +83,13 @@ class NoteAdapter(private val cardlist: ArrayList<note>, val context: Context) :
             dialog.show()
 
 
-
-
         }
 
-        itemView.edit.setOnClickListener{
+        itemView.edit.setOnClickListener {
             var intent = Intent(itemView.context, AddNotes::class.java)
-            intent.putExtra("edit",true)
-            intent.putExtra("Name",itemView.title.text.toString())
-            intent.putExtra("Description",itemView.desc.text.toString())
+            intent.putExtra("edit", true)
+            intent.putExtra("Name", itemView.title.text.toString())
+            intent.putExtra("Description", itemView.desc.text.toString())
             itemView.context.startActivity(intent)
         }
 

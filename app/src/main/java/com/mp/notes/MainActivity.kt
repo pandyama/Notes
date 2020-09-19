@@ -1,21 +1,18 @@
 package com.mp.notes
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mp.notesapp.NoteAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_notes_add.*
-import kotlinx.android.synthetic.main.notecard.*
 import kotlinx.android.synthetic.main.notecard.view.*
-import kotlinx.android.synthetic.main.notecard.view.delete
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +38,33 @@ class MainActivity : AppCompatActivity() {
         }
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this)
+
+        LockBtnSetting.setOnClickListener{
+            lateinit var dialog: AlertDialog
+            // Initialize a new instance of alert dialog builder object
+            val builder = AlertDialog.Builder(context)
+
+            // Set a title for alert dialog
+            builder.setTitle("Setup a pin or reset pin")
+            // Set a message for alert dialog
+            // On click listener for dialog buttons
+            val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        var intent = Intent(this, Pin::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+            builder.setPositiveButton("Setup", dialogClickListener)
+            // Set the alert dialog negative/no button
+            builder.setNegativeButton("Reset", dialogClickListener)
+            // Initialize the AlertDialog using builder object
+            dialog = builder.create()
+            // Finally, display the alert dialog
+            dialog.show()
+        }
     }
 
     override fun onResume() {
@@ -64,20 +88,16 @@ class MainActivity : AppCompatActivity() {
         else{
             recycler_view.layoutManager = GridLayoutManager(this,2)
         }
-
         recycler_view.setHasFixedSize(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         //gets called automatically when activity fires up
-
         menuInflater.inflate(R.menu.main_menu, menu)
-
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
             R.id.addNote -> {
                 //Go to Add page
@@ -87,7 +107,6 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("Name", "")
                 intent.putExtra("Description", "")
                 startActivity(intent)
-
             }
             R.id.layout -> {
                 if(defaultLayout == 0){
@@ -102,7 +121,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 }
