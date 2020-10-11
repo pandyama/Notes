@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pinHelper.Pin">
+    tools:context=".pinHelper.PinReset">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -20,6 +20,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_pin" />
+    <include layout="@layout/content_pin_reset" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.mp.notes.database.DatabaseHelper
 import kotlinx.android.synthetic.main.activity_notes_add.*
 
 class AddNotes : AppCompatActivity() {

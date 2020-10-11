@@ -1,4 +1,4 @@
-package com.mp.notes
+package com.mp.notes.database
 
 import android.content.ContentValues
 import android.content.Context

@@ -8,6 +8,13 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <TextView
+        android:id="@+id/rOldPinText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter old pin"
+        android:textAlignment="center" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,17 +22,17 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/pin1"
+            android:id="@+id/rpin1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:textAlignment="center"
-            android:importantForAutofill="no"
+            android:autofillHints=""
             android:importantForAccessibility="no"
-            android:autofillHints="" />
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/pin2"
+            android:id="@+id/rpin2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -34,7 +41,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/pin3"
+            android:id="@+id/rpin3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -43,7 +50,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/pin4"
+            android:id="@+id/rpin4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -61,7 +68,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/rbtn1"
             style="@style/AppTheme.RoundedCornerMaterialButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +77,7 @@
             android:text="1" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/rbtn2"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +88,7 @@
             android:text="2" />
 
         <Button
-            android:id="@+id/btn3"
+            android:id="@+id/rbtn3"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +104,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn4"
+            android:id="@+id/rbtn4"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,7 +114,7 @@
             android:text="4" />
 
         <Button
-            android:id="@+id/btn5"
+            android:id="@+id/rbtn5"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -117,7 +124,7 @@
             android:text="5" />
 
         <Button
-            android:id="@+id/btn6"
+            android:id="@+id/rbtn6"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,7 +141,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn7"
+            android:id="@+id/rbtn7"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,7 +151,7 @@
             android:text="7" />
 
         <Button
-            android:id="@+id/btn8"
+            android:id="@+id/rbtn8"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -154,7 +161,7 @@
             android:text="8" />
 
         <Button
-            android:id="@+id/btn9"
+            android:id="@+id/rbtn9"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -171,7 +178,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/delete"
+            android:id="@+id/rdelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="?android:attr/borderlessButtonStyle"
@@ -181,7 +188,7 @@
             app:backgroundTint="#FB6868" />
 
         <Button
-            android:id="@+id/btn0"
+            android:id="@+id/rbtn0"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -191,7 +198,7 @@
             android:text="0" />
 
         <Button
-            android:id="@+id/btnOk"
+            android:id="@+id/rbtnOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="?android:attr/borderlessButtonStyle"

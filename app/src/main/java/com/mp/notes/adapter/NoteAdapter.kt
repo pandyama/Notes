@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mp.notes.*
+import com.mp.notes.database.DatabaseHelper
+import com.mp.notes.model.note
 import kotlinx.android.synthetic.main.notecard.view.*
 import kotlinx.android.synthetic.main.notecard.view.delete
 

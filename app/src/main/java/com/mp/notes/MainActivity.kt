@@ -1,26 +1,26 @@
 package com.mp.notes
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mp.notes.database.DatabaseHelper
+import com.mp.notes.model.note
+import com.mp.notes.pinHelper.Pin
+import com.mp.notes.pinHelper.PinReset
+import com.mp.notes.sharedPref.SharedPrefHandler
 import com.mp.notesapp.NoteAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.notecard.view.*
 
 class MainActivity : AppCompatActivity() {
 
     var listNotes = ArrayList<note>()
     val context = this
-
     var adapter = NoteAdapter(listNotes,context)
-
     var defaultLayout = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,30 +40,12 @@ class MainActivity : AppCompatActivity() {
         recycler_view.layoutManager = LinearLayoutManager(this)
 
         LockBtnSetting.setOnClickListener{
-            lateinit var dialog: AlertDialog
-            // Initialize a new instance of alert dialog builder object
-            val builder = AlertDialog.Builder(context)
 
-            // Set a title for alert dialog
-            builder.setTitle("Setup a pin or reset pin")
-            // Set a message for alert dialog
-            // On click listener for dialog buttons
-            val dialogClickListener = DialogInterface.OnClickListener { _, which ->
-                when (which) {
-                    DialogInterface.BUTTON_POSITIVE -> {
-                        var intent = Intent(this, Pin::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                }
-            }
-            builder.setPositiveButton("Setup", dialogClickListener)
-            // Set the alert dialog negative/no button
-            builder.setNegativeButton("Reset", dialogClickListener)
-            // Initialize the AlertDialog using builder object
-            dialog = builder.create()
-            // Finally, display the alert dialog
-            dialog.show()
+            var intent = Intent(this, AddNotes::class.java)
+            intent.putExtra("edit", false)
+            intent.putExtra("Name", "")
+            intent.putExtra("Description", "")
+            startActivity(intent)
         }
     }
 
@@ -98,16 +80,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        val sharedPref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         when (item.itemId) {
-            R.id.addNote -> {
-                //Go to Add page
-                //Inter Process Communication
-                var intent = Intent(this, AddNotes::class.java)
-                intent.putExtra("edit", false)
-                intent.putExtra("Name", "")
-                intent.putExtra("Description", "")
-                startActivity(intent)
-            }
+//            R.id.addNote -> {
+//                //Go to Add page
+//                //Inter Process Communication
+//                var intent = Intent(this, AddNotes::class.java)
+//                intent.putExtra("edit", false)
+//                intent.putExtra("Name", "")
+//                intent.putExtra("Description", "")
+//                startActivity(intent)
+//            }
             R.id.layout -> {
                 if(defaultLayout == 0){
                     recycler_view.layoutManager = GridLayoutManager(this,2)
@@ -118,6 +101,24 @@ class MainActivity : AppCompatActivity() {
                     recycler_view.layoutManager = LinearLayoutManager(this)
                     item.setTitle("Grid Layout")
                     defaultLayout = 0
+                }
+            }
+            R.id.pinSetting -> {
+                val sharedPref = SharedPrefHandler(context)
+
+                if(sharedPref.getPin() != 0 && sharedPref.getPin() != -1){
+                    //pin is there
+                    var intent = Intent(this, PinReset::class.java)
+                    println("Called PIN RESET - Negative btn")
+                    intent.putExtra("reset","true")
+                    startActivity(intent)
+                    finish()
+                }
+                else{
+                    var intent = Intent(this, Pin::class.java)
+                    println("Called PIN SETUP - Positive btn")
+                    startActivity(intent)
+                    finish()
                 }
             }
         }
