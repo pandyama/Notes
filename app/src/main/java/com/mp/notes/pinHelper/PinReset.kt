@@ -1,6 +1,5 @@
 package com.mp.notes.pinHelper
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mp.notes.MainActivity
 import com.mp.notes.R
 import com.mp.notes.sharedPref.SharedPrefHandler
-
 import kotlinx.android.synthetic.main.activity_pin_reset.*
 import kotlinx.android.synthetic.main.content_pin_reset.*
 
