@@ -4,6 +4,7 @@
     android:id="@+id/pinCard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:gravity="center_vertical"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -35,27 +36,27 @@
             android:id="@+id/rpin2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:importantForAutofill="no"
             android:importantForAccessibility="no"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
             android:textAlignment="center" />
 
         <EditText
             android:id="@+id/rpin3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:importantForAutofill="no"
             android:importantForAccessibility="no"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
             android:textAlignment="center" />
 
         <EditText
             android:id="@+id/rpin4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:importantForAutofill="no"
             android:importantForAccessibility="no"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
             android:textAlignment="center" />
 
 
@@ -82,8 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:onClick="NumberClicked"
             android:background="@drawable/pinbutton"
+            android:onClick="NumberClicked"
 
             android:text="2" />
 
@@ -179,9 +180,9 @@
 
         <Button
             android:id="@+id/rdelete"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
             android:layout_margin="4dp"
 
             android:text="Delete"
@@ -199,9 +200,9 @@
 
         <Button
             android:id="@+id/rbtnOk"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
             android:layout_margin="4dp"
 
             android:text="@android:string/ok"

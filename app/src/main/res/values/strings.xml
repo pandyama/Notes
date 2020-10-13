@@ -5,6 +5,6 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="title_activity_splash_screen">SplashScreen</string>
-    <string name="title_activity_pin_reset">PinReset</string>
+    <string name="title_activity_splash_screen">Notes</string>
+    <string name="title_activity_pin_reset">Pin Reset</string>
 </resources>

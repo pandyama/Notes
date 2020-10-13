@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mp.notes.MainActivity
 import com.mp.notes.R
@@ -20,8 +21,6 @@ class Pin : AppCompatActivity() {
 
     var pinEnabled = false
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pin)
@@ -36,9 +35,9 @@ class Pin : AppCompatActivity() {
 
         btnOk.setOnClickListener{
             if(!pinEnabled) {
-                println(".Pin is not enabled")
+//                println(".Pin is not enabled")
                 if (clickCounter == 3) {
-                    println("..click counter is 3")
+//                    println("..click counter is 3")
                     if (confirmPin == 0) {
                         pin1.setText("")
                         pin2.setText("")
@@ -49,23 +48,24 @@ class Pin : AppCompatActivity() {
                         confirmPin++
                         numbers = ""
                     } else {
-                        println("...pin confirmed, sending to sharedpref")
                         clickCounter = 0
                         sharedPref.setPin(numbers.toInt())
                         pinEnabled = true
+                        sharedPref.setAccess(true)
+                        Toast.makeText(this, "Lock icon allows you to Enable or Disable using Pin", Toast.LENGTH_LONG).show()
                         var intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
+                        finish()
                     }
                 }
             }
             else{
                 if(clickCounter == 3 && sharedPref.getPin() == numbers.toInt()){
-                    println("clickCounter is "+clickCounter)
-                    var intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
                     numbers = ""
                     clickCounter = 0
-                    sharedPref.setAccess(true)
+                    var intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
                 else{
                     pin1.setText("")
@@ -74,6 +74,7 @@ class Pin : AppCompatActivity() {
                     pin4.setText("")
                     numbers = ""
                     clickCounter = 0
+                    Toast.makeText(this, "Incorrect pin", Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -83,90 +84,51 @@ class Pin : AppCompatActivity() {
         delete.setOnClickListener{
             if(pin4.text.toString() != ""){
                 pin4.setText("")
+                numbers = numbers.dropLast(1)
                 clickCounter = 3
             }
             else if(pin3.text.toString() != ""){
                 pin3.setText("")
+                numbers = numbers.dropLast(1)
                 clickCounter = 2
             }
             else if(pin2.text.toString() != ""){
                 pin2.setText("")
+                numbers = numbers.dropLast(1)
                 clickCounter = 1
             }
             else{
                 pin1.setText("")
+                numbers = numbers.dropLast(1)
                 clickCounter = 0
             }
+
+//            println("Number now after delete is "+numbers)
+
         }
     }
-
-//    override fun onRestart() {
-//        super.onRestart()
-//        val sharedPref = SharedPrefHandler(this)
-//        btnOk.setOnClickListener{
-//            if(!pinEnabled) {
-//                println(".Pin is not enabled")
-//                if (clickCounter == 3) {
-//                    println("..click counter is 3")
-//                    if (confirmPin == 0) {
-//                        pin1.setText("")
-//                        pin2.setText("")
-//                        pin3.setText("")
-//                        pin4.setText("")
-//                        btnOk.setText("Confirm")
-//                        clickCounter = 0
-//                        confirmPin++
-//                        numbers = ""
-//                    } else {
-//                        println("...pin confirmed, sending to sharedpref")
-//                        clickCounter = 0
-//                        sharedPref.setPin(numbers.toInt())
-//                        pinEnabled = true
-//                        var intent = Intent(this, MainActivity::class.java)
-//                        startActivity(intent)
-//                    }
-//                }
-//            }
-//            else{
-//                if(clickCounter == 3 && sharedPref.getPin() == numbers.toInt()){
-//                    var intent = Intent(this, MainActivity::class.java)
-//                    startActivity(intent)
-//                    numbers = ""
-//                    clickCounter = 0
-//                }
-//                else{
-//                    pin1.setText("")
-//                    pin2.setText("")
-//                    pin3.setText("")
-//                    pin4.setText("")
-//                    numbers = ""
-//                    clickCounter = 0
-//                }
-//            }
-//        }
-//    }
 
     fun NumberClicked(view: View) {
         val button = view as Button
         NumberClicked = button.text.toString()
         numbers = numbers + NumberClicked
         if(clickCounter == 0){
-            pin1.setText(NumberClicked)
+            pin1.setText("*")
             clickCounter++
         }
         else if(clickCounter == 1){
-            pin2.setText(NumberClicked)
+            pin2.setText("*")
             clickCounter++
         }
         else if(clickCounter == 2){
-            pin3.setText(NumberClicked)
+            pin3.setText("*")
             clickCounter++
         }
         else{
-            pin4.setText(NumberClicked)
+            pin4.setText("*")
         }
 
-        println("Number clicked is "+NumberClicked)
+//        println("Number clicked is "+NumberClicked)
     }
 
 }

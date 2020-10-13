@@ -1,6 +1,7 @@
 package com.mp.notes
 
 import android.content.ContentValues
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -50,22 +51,18 @@ class AddNotes : AppCompatActivity() {
             values.put("Name", noteName.text.toString())
             values.put("Description", noteDesc.text.toString())
 
-
-
             if (edit) {
-
                 var id = dbManager.getID(oldName, oldDesc)
-
                 dbManager.update(id, noteName.text.toString(), noteDesc.text.toString())
-                println("new note name")
-                println(noteName.text.toString())
-                println("new note desc")
-                println(noteDesc.text.toString())
+                var intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
                 finish()
             } else {
                 val ID = dbManager.insert(noteName.text.toString(), noteDesc.text.toString())
                 if (ID > 0) {
                     Toast.makeText(this, "Note created successfully", Toast.LENGTH_LONG).show()
+                    var intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                     finish()
                 } else {
                     Toast.makeText(this, "Failed to save Note", Toast.LENGTH_LONG).show()
@@ -74,9 +71,6 @@ class AddNotes : AppCompatActivity() {
         }
         else{
             Toast.makeText(this, "Title and details must be filled", Toast.LENGTH_LONG).show()
-
         }
-
-        //finish()
     }
 }

@@ -16,6 +16,10 @@ class SharedPrefHandler(context: Context) {
         preference.edit().putInt("Pincode", pin).commit()
     }
 
+    fun getAccess(): Boolean{
+        return preference.getBoolean("Access",false)
+    }
+
     fun setAccess(access: Boolean){
         preference.edit().putBoolean("Access",access).commit()
     }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mp.notes.database.DatabaseHelper
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("Name", "")
             intent.putExtra("Description", "")
             startActivity(intent)
+            finish()
         }
     }
 
@@ -74,22 +76,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         //gets called automatically when activity fires up
+        var sharedPref = SharedPrefHandler(context)
         menuInflater.inflate(R.menu.main_menu, menu)
+
+        if (menu != null && sharedPref.getAccess()) {
+            menu.getItem(0).setIcon(R.drawable.pin_enable)
+        }
+        else if(menu != null && !sharedPref.getAccess()){
+            menu.getItem(0).setIcon(R.drawable.pin_disable)
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val sharedPref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val sharedPref = SharedPrefHandler(context)
         when (item.itemId) {
-//            R.id.addNote -> {
-//                //Go to Add page
-//                //Inter Process Communication
-//                var intent = Intent(this, AddNotes::class.java)
-//                intent.putExtra("edit", false)
-//                intent.putExtra("Name", "")
-//                intent.putExtra("Description", "")
-//                startActivity(intent)
-//            }
+
             R.id.layout -> {
                 if(defaultLayout == 0){
                     recycler_view.layoutManager = GridLayoutManager(this,2)
@@ -103,7 +106,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.pinSetting -> {
-                val sharedPref = SharedPrefHandler(context)
 
                 if(sharedPref.getPin() != 0 && sharedPref.getPin() != -1){
                     //pin is there
@@ -118,6 +120,24 @@ class MainActivity : AppCompatActivity() {
                     println("Called PIN SETUP - Positive btn")
                     startActivity(intent)
                     finish()
+                }
+            }
+            R.id.pinOnOff -> {
+                if(sharedPref.getPin() != 0 && sharedPref.getPin() != -1 && !sharedPref.getAccess()){
+                    //pin is there
+                    //Switch Icon here and show toast saying pin is turned on
+                    sharedPref.setAccess(true)
+                    item.setIcon(R.drawable.pin_enable)
+                    Toast.makeText(this, "Pin Enabled", Toast.LENGTH_LONG).show()
+
+                }
+                else if(sharedPref.getPin() != 0 && sharedPref.getPin() != -1 && sharedPref.getAccess()){
+                    sharedPref.setAccess(false)
+                    item.setIcon(R.drawable.pin_disable)
+                    Toast.makeText(this, "Pin Disabled", Toast.LENGTH_LONG).show()
+                }
+                else{
+                    Toast.makeText(this, "Setup a Pin from settings menu in top right icon", Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -18,10 +18,7 @@ class PinReset : AppCompatActivity() {
     var NumberClicked = ""
     var clickCounter = 0
     var confirmPin = 0
-
     var newPin = 0
-
-    private val PREF_NAME = "pin"
     var pinEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +26,6 @@ class PinReset : AppCompatActivity() {
         setContentView(R.layout.activity_pin_reset)
         setSupportActionBar(toolbar)
 
-//        val sharedPref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         val sharedPref = SharedPrefHandler(this)
         var currentPin = sharedPref.getPin()
 
@@ -42,6 +38,7 @@ class PinReset : AppCompatActivity() {
                 rpin2.setText("")
                 rpin3.setText("")
                 rpin4.setText("")
+                rOldPinText.setText("Enter New Pin")
             }
             else if(newPin == 1){
                 if (clickCounter == 3) {
@@ -56,16 +53,13 @@ class PinReset : AppCompatActivity() {
                         confirmPin++
                         numbers = ""
                     } else {
-                        println("...pin confirmed, sending to sharedpref")
                         clickCounter = 0
-//                        sharedPref.edit().putInt("Pincode",numbers.toInt()).commit()
                         sharedPref.setPin(numbers.toInt())
                         pinEnabled = true
+                        sharedPref.setAccess(true)
                         var intent = Intent(this, MainActivity::class.java)
-//                    intent.putExtra("edit", false)
-//                    intent.putExtra("Name", "")
-//                    intent.putExtra("Description", "")
                         startActivity(intent)
+                        finish()
                     }
                 }
             }
@@ -85,20 +79,25 @@ class PinReset : AppCompatActivity() {
         rdelete.setOnClickListener{
             if(rpin4.text.toString() != ""){
                 rpin4.setText("")
+                numbers = numbers.dropLast(1)
                 clickCounter = 3
             }
             else if(rpin3.text.toString() != ""){
                 rpin3.setText("")
+                numbers = numbers.dropLast(1)
                 clickCounter = 2
             }
             else if(rpin2.text.toString() != ""){
                 rpin2.setText("")
+                numbers = numbers.dropLast(1)
                 clickCounter = 1
             }
             else{
                 rpin1.setText("")
+                numbers = numbers.dropLast(1)
                 clickCounter = 0
             }
+//            println("Number now after delete is "+numbers)
         }
     }
 
@@ -107,22 +106,22 @@ class PinReset : AppCompatActivity() {
         NumberClicked = button.text.toString()
         numbers = numbers + NumberClicked
         if(clickCounter == 0){
-            rpin1.setText(NumberClicked)
+            rpin1.setText("*")
             clickCounter++
         }
         else if(clickCounter == 1){
-            rpin2.setText(NumberClicked)
+            rpin2.setText("*")
             clickCounter++
         }
         else if(clickCounter == 2){
-            rpin3.setText(NumberClicked)
+            rpin3.setText("*")
             clickCounter++
         }
         else{
-            rpin4.setText(NumberClicked)
+            rpin4.setText("*")
         }
 
-        println("Number clicked is "+NumberClicked)
+//        println("Number clicked is "+NumberClicked)
     }
 
 }
