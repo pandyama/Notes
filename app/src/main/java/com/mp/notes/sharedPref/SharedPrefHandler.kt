@@ -23,4 +23,12 @@ class SharedPrefHandler(context: Context) {
     fun setAccess(access: Boolean){
         preference.edit().putBoolean("Access",access).commit()
     }
+
+    fun getLayout(): String? {
+        return preference.getString("Layout","Linear")
+    }
+
+    fun setLayout(layout: String){
+        preference.edit().putString("Layout", layout).commit()
+    }
 }

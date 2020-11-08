@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mp.notes.database.DatabaseHelper
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var sharedPref = SharedPrefHandler(context)
         var DatabaseHelper = DatabaseHelper(this)
         val cursor = DatabaseHelper.getNotes()
 
@@ -37,7 +39,16 @@ class MainActivity : AppCompatActivity() {
             listNotes.add(note(cursor.getString(1), cursor.getString(2)))
         }
         recycler_view.adapter = adapter
-        recycler_view.layoutManager = LinearLayoutManager(this)
+
+        if(sharedPref.getLayout() == "Linear"){
+            println("layout is linear")
+            recycler_view.layoutManager = LinearLayoutManager(this)
+        }
+        else{
+            println("layout is grid")
+            recycler_view.layoutManager = GridLayoutManager(this, 2)
+        }
+
 
         LockBtnSetting.setOnClickListener{
 
@@ -54,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         var DatabaseHelper = DatabaseHelper(this)
         val cursor = DatabaseHelper.getNotes()
+        var sharedPref = SharedPrefHandler(context)
 
         listNotes.clear()
 
@@ -65,11 +77,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         recycler_view.adapter = adapter
-        if(defaultLayout == 0){
+        if(sharedPref.getLayout() == "Linear"){
+            println("On resume layout is linear")
             recycler_view.layoutManager = LinearLayoutManager(this)
         }
         else{
-            recycler_view.layoutManager = GridLayoutManager(this,2)
+            println("On resume layout is grid")
+            recycler_view.layoutManager = GridLayoutManager(this, 2)
         }
         recycler_view.setHasFixedSize(true)
     }
@@ -86,6 +100,13 @@ class MainActivity : AppCompatActivity() {
             menu.getItem(0).setIcon(R.drawable.pin_disable)
         }
 
+        if(menu != null && sharedPref.getLayout() == "Linear"){
+            menu.getItem(1).setTitle("Grid Layout")
+        }
+        else if(menu != null && sharedPref.getLayout() == "Grid"){
+            menu.getItem(1).setTitle("Linear Layout")
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -94,14 +115,20 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
 
             R.id.layout -> {
-                if(defaultLayout == 0){
+                println("layout item clicked")
+                println(sharedPref.getLayout())
+                if(sharedPref.getLayout() == "Linear"){
                     recycler_view.layoutManager = GridLayoutManager(this,2)
                     item.setTitle("Linear Layout")
+                    sharedPref.setLayout("Grid")
+                    println(".....")
+                    println(sharedPref.getLayout())
                     defaultLayout = 1
                 }
                 else{
                     recycler_view.layoutManager = LinearLayoutManager(this)
                     item.setTitle("Grid Layout")
+                    sharedPref.setLayout("Linear")
                     defaultLayout = 0
                 }
             }

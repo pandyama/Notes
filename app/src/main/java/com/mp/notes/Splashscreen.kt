@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.activity_pin.toolbar
 class Splashscreen : AppCompatActivity() {
 
     val context = this
+    lateinit var dialog: AlertDialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +25,6 @@ class Splashscreen : AppCompatActivity() {
         var access = sharedPref.getAccess()
 
         if(pin.equals(0) && !access){ //default is 0
-            lateinit var dialog: AlertDialog
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Setup a pin Now or Later")
             val dialogClickListener = DialogInterface.OnClickListener { _, which ->
@@ -45,6 +46,7 @@ class Splashscreen : AppCompatActivity() {
             builder.setNegativeButton("Later", dialogClickListener)
             dialog = builder.create()
             dialog.show()
+            dialog.dismiss()
 
         }
         else if(pin.equals(-1) && !access){ // Chose not to set the pin
@@ -63,6 +65,20 @@ class Splashscreen : AppCompatActivity() {
             finish()
         }
 
+    }
+
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        if(dialog != null) {
+//            dialog.hide()
+//        }
+//    }
+
+    override fun onPause() {
+        super.onPause()
+        if(dialog != null) {
+            dialog.hide()
+        }
     }
 
     override fun onResume() {
