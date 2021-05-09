@@ -9,7 +9,7 @@ class SharedPrefHandler(context: Context) {
     val preference = context.getSharedPreferences(PREF_NAME, MODE_PRIVATE)
 
     fun getPin(): Int {
-        return preference.getInt("Pincode",0)
+        return preference.getInt("Pincode",999999)
     }
 
     fun setPin(pin: Int){
@@ -30,5 +30,10 @@ class SharedPrefHandler(context: Context) {
 
     fun setLayout(layout: String){
         preference.edit().putString("Layout", layout).commit()
+    }
+
+    fun deletePin(){
+        preference.edit().putInt("Pincode", 999999).commit()
+        preference.edit().putBoolean("Access",false).commit()
     }
 }

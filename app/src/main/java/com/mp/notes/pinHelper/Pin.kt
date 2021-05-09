@@ -28,16 +28,13 @@ class Pin : AppCompatActivity() {
 
         val sharedPref = SharedPrefHandler(this)
 
-        if(sharedPref.getPin() != 0 && sharedPref.getPin() != -1){
+        if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1){
             pinEnabled = true
         }
 
-
         btnOk.setOnClickListener{
             if(!pinEnabled) {
-//                println(".Pin is not enabled")
                 if (clickCounter == 3) {
-//                    println("..click counter is 3")
                     if (confirmPin == 0) {
                         pin1.setText("")
                         pin2.setText("")
@@ -102,9 +99,6 @@ class Pin : AppCompatActivity() {
                 numbers = numbers.dropLast(1)
                 clickCounter = 0
             }
-
-//            println("Number now after delete is "+numbers)
-
         }
     }
 
@@ -127,8 +121,6 @@ class Pin : AppCompatActivity() {
         else{
             pin4.setText("*")
         }
-
-//        println("Number clicked is "+NumberClicked)
     }
 
 }

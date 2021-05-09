@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     val context = this
     var adapter = NoteAdapter(listNotes,context)
     var defaultLayout = 0
+    lateinit var optionsMenu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +108,10 @@ class MainActivity : AppCompatActivity() {
             menu.getItem(1).setTitle("Linear Layout")
         }
 
+        if (menu != null) {
+            optionsMenu = menu
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -134,7 +139,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.pinSetting -> {
 
-                if(sharedPref.getPin() != 0 && sharedPref.getPin() != -1){
+                if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1){
                     //pin is there
                     var intent = Intent(this, PinReset::class.java)
                     println("Called PIN RESET - Negative btn")
@@ -150,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.pinOnOff -> {
-                if(sharedPref.getPin() != 0 && sharedPref.getPin() != -1 && !sharedPref.getAccess()){
+                if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1 && !sharedPref.getAccess()){
                     //pin is there
                     //Switch Icon here and show toast saying pin is turned on
                     sharedPref.setAccess(true)
@@ -158,14 +163,25 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Pin Enabled", Toast.LENGTH_LONG).show()
 
                 }
-                else if(sharedPref.getPin() != 0 && sharedPref.getPin() != -1 && sharedPref.getAccess()){
+                else if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1 && sharedPref.getAccess()){
                     sharedPref.setAccess(false)
                     item.setIcon(R.drawable.pin_disable)
                     Toast.makeText(this, "Pin Disabled", Toast.LENGTH_LONG).show()
                 }
                 else{
+
+                    println(sharedPref.getPin())
+                    println(sharedPref.getAccess())
+
                     Toast.makeText(this, "Setup a Pin from settings menu in top right icon", Toast.LENGTH_LONG).show()
                 }
+            }
+            R.id.deletePin -> {
+                sharedPref.deletePin()
+                println(item.itemId)
+                var item = optionsMenu.findItem(R.id.pinOnOff).setIcon(R.drawable.pin_disable)
+
+                Toast.makeText(this, "Pin Disabled", Toast.LENGTH_LONG).show()
             }
         }
         return super.onOptionsItemSelected(item)

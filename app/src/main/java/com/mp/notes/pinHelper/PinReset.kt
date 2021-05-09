@@ -64,7 +64,6 @@ class PinReset : AppCompatActivity() {
                 }
             }
             else{
-                //incorrect pin
                 numbers = ""
                 clickCounter = 0
                 Toast.makeText(this, "Incorrect pin", Toast.LENGTH_LONG).show()
@@ -97,7 +96,6 @@ class PinReset : AppCompatActivity() {
                 numbers = numbers.dropLast(1)
                 clickCounter = 0
             }
-//            println("Number now after delete is "+numbers)
         }
     }
 
@@ -120,8 +118,6 @@ class PinReset : AppCompatActivity() {
         else{
             rpin4.setText("*")
         }
-
-//        println("Number clicked is "+NumberClicked)
     }
 
 }

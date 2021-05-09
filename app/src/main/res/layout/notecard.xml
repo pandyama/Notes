@@ -4,55 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:background="@drawable/background">
+    android:layout_margin="7dp"
+    android:outlineSpotShadowColor="#000000"
+    android:padding="5dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3pt"
-        android:background="@drawable/background"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="vertical"
+
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#4DB6AC"
-            android:textSize="20sp" />
+            android:textAlignment="center"
+            android:textColor="#6780FF"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:fontFamily="@font/montserrat"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
+            android:textAlignment="center"
+            android:textColor="#000000"
             android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="14sp"
+            android:layout_height="wrap_content"
             android:clickable="true"
-            android:orientation="horizontal">
+            android:clipToPadding="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/edit"
                 android:layout_width="wrap_content"
-                android:layout_height="25sp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/imageviewbackground"
                 android:clickable="true"
                 android:contentDescription="editButton"
+                android:cropToPadding="false"
+                android:padding="6dp"
                 app:srcCompat="@drawable/ic_edit_black_24dp"
                 tools:ignore="VectorDrawableCompat" />
 
             <ImageView
                 android:id="@+id/delete"
                 android:layout_width="wrap_content"
-                android:layout_height="25sp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/imageviewdelete"
                 android:clickable="true"
                 android:contentDescription="deleteButton"
+                android:cropToPadding="false"
+                android:padding="6dp"
                 app:srcCompat="@drawable/ic_delete_black_24dp"
                 tools:ignore="VectorDrawableCompat" />
 

@@ -68,7 +68,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:onClick="NumberClicked"
-            android:text="1" />
+            android:text="1"
+            app:backgroundTint="#6780FF" />
 
         <Button
             android:id="@+id/btn2"
@@ -78,7 +79,8 @@
             android:layout_margin="4dp"
             android:background="@drawable/pinbutton"
             android:onClick="NumberClicked"
-            android:text="2" />
+            android:text="2"
+            app:backgroundTint="#6780FF" />
 
         <Button
             android:id="@+id/btn3"
@@ -87,7 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:onClick="NumberClicked"
-            android:text="3" />
+            android:text="3"
+            app:backgroundTint="#6780FF" />
     </LinearLayout>
 
     <LinearLayout
@@ -104,7 +107,8 @@
             android:layout_margin="4dp"
 
             android:onClick="NumberClicked"
-            android:text="4" />
+            android:text="4"
+            app:backgroundTint="#6780FF" />
 
         <Button
             android:id="@+id/btn5"
@@ -114,7 +118,8 @@
             android:layout_margin="4dp"
 
             android:onClick="NumberClicked"
-            android:text="5" />
+            android:text="5"
+            app:backgroundTint="#6780FF" />
 
         <Button
             android:id="@+id/btn6"
@@ -124,7 +129,8 @@
             android:layout_margin="4dp"
 
             android:onClick="NumberClicked"
-            android:text="6" />
+            android:text="6"
+            app:backgroundTint="#6780FF" />
     </LinearLayout>
 
     <LinearLayout
@@ -141,7 +147,8 @@
             android:layout_margin="4dp"
 
             android:onClick="NumberClicked"
-            android:text="7" />
+            android:text="7"
+            app:backgroundTint="#6780FF" />
 
         <Button
             android:id="@+id/btn8"
@@ -151,7 +158,8 @@
             android:layout_margin="4dp"
 
             android:onClick="NumberClicked"
-            android:text="8" />
+            android:text="8"
+            app:backgroundTint="#6780FF" />
 
         <Button
             android:id="@+id/btn9"
@@ -161,7 +169,8 @@
             android:layout_margin="4dp"
 
             android:onClick="NumberClicked"
-            android:text="9" />
+            android:text="9"
+            app:backgroundTint="#6780FF" />
     </LinearLayout>
 
     <LinearLayout
@@ -188,7 +197,8 @@
             android:layout_margin="4dp"
 
             android:onClick="NumberClicked"
-            android:text="0" />
+            android:text="0"
+            app:backgroundTint="#6780FF" />
 
         <Button
             android:id="@+id/btnOk"

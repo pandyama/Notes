@@ -24,7 +24,7 @@ class Splashscreen : AppCompatActivity() {
         var pin:Int = sharedPref.getPin()
         var access = sharedPref.getAccess()
 
-        if(pin.equals(0) && !access){ //default is 0
+        if(pin.equals(999999) && !access){ //default is 0
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Setup a pin Now or Later")
             val dialogClickListener = DialogInterface.OnClickListener { _, which ->
@@ -87,7 +87,7 @@ class Splashscreen : AppCompatActivity() {
         val sharedPref = SharedPrefHandler(this)
         var pin:Int = sharedPref.getPin()
 
-        if(pin.equals(0)){
+        if(pin.equals(999999)){
             lateinit var dialog: AlertDialog
             // Initialize a new instance of alert dialog builder object
             val builder = AlertDialog.Builder(context)

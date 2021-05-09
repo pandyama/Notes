@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray"
-    tools:context=".MainActivity">
-
-
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/back"
+        tools:context=".AddNotes">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".AddNotes">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="9dp">
 
             <EditText
                 android:id="@+id/noteName"
-                android:layout_width="306dp"
-                android:layout_height="65dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:fontFamily="@font/montserrat"
-                android:hint="Note Title"
+                android:hint="Title"
                 android:inputType="textPersonName"
                 android:textAlignment="center"
                 android:textColorHint="#000000"
@@ -41,13 +44,13 @@
 
             <EditText
                 android:id="@+id/noteDesc"
-                android:layout_width="287dp"
-                android:layout_height="240dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="106dp"
                 android:ems="10"
                 android:fontFamily="@font/montserrat"
                 android:gravity="start|top"
-                android:hint="Note details"
+                android:hint="Details"
                 android:inputType="textMultiLine"
                 android:textAlignment="center"
                 android:textColorHint="#000000"
@@ -63,13 +66,14 @@
                 android:id="@+id/addNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#1DE9B6"
+                android:background="#6780FF"
                 android:fontFamily="@font/montserrat"
                 android:includeFontPadding="true"
                 android:onClick="endActivity"
                 android:text="Save"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
+                app:backgroundTint="#6780FF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -77,8 +81,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/noteDesc"
                 app:layout_constraintVertical_bias="0.0"
                 tools:ignore="OnClick" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

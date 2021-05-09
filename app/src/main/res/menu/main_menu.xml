@@ -12,4 +12,7 @@
     <item
         android:id="@+id/pinSetting"
         android:title="Pin Setting" />
+    <item
+        android:id="@+id/deletePin"
+        android:title="Delete Pin" />
 </menu>
