@@ -6,7 +6,7 @@ Live Features
 - Notes have a title and description
 - Notes are stored in SQLite
 
-Upcoming Features
+Feature that is built but not published
 - User can setup pin based secure access
 - User will be able to setup a 4 digit pin that can be reset 
 - User can choose to Enable or Disable pin access
