@@ -9,6 +9,13 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <TextView
+        android:id="@+id/rOldPinText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter pin"
+        android:textAlignment="center" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,7 +84,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:background="@drawable/pinbutton"
             android:onClick="NumberClicked"
             android:text="2"
             app:backgroundTint="#6780FF" />
@@ -186,7 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
 
-            android:text="Delete"
+            android:text="Clear"
             app:backgroundTint="#FB6868" />
 
         <Button

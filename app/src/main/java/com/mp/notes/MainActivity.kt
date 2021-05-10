@@ -1,8 +1,14 @@
 package com.mp.notes
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -16,6 +22,9 @@ import com.mp.notes.pinHelper.PinReset
 import com.mp.notes.sharedPref.SharedPrefHandler
 import com.mp.notesapp.NoteAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
+import java.io.FileOutputStream
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,23 +42,30 @@ class MainActivity : AppCompatActivity() {
         var DatabaseHelper = DatabaseHelper(this)
         val cursor = DatabaseHelper.getNotes()
 
-        while (cursor.moveToNext()) {
-            println(cursor.getString(0))
-            println(cursor.getString(1))
-            println(cursor.getString(2))
-            listNotes.add(note(cursor.getString(1), cursor.getString(2)))
-        }
-        recycler_view.adapter = adapter
+        println("INSIDE MAIN ACTIVITY")
+        println(cursor.count)
 
-        if(sharedPref.getLayout() == "Linear"){
-            println("layout is linear")
-            recycler_view.layoutManager = LinearLayoutManager(this)
+        if(cursor.count != 0){
+            while (cursor.moveToNext()) {
+                listNotes.add(note(cursor.getString(1), cursor.getString(2)))
+            }
+            recycler_view.adapter = adapter
+
+            var pdfDocument = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                PdfDocument()
+            } else {
+                TODO("VERSION.SDK_INT < KITKAT")
+            }
+            if(sharedPref.getLayout() == "Linear"){
+                recycler_view.layoutManager = LinearLayoutManager(this)
+            }
+            else{
+                recycler_view.layoutManager = GridLayoutManager(this, 2)
+            }
         }
         else{
-            println("layout is grid")
-            recycler_view.layoutManager = GridLayoutManager(this, 2)
+            Toast.makeText(this, "Add Notes", Toast.LENGTH_LONG).show()
         }
-
 
         LockBtnSetting.setOnClickListener{
 
@@ -71,19 +87,14 @@ class MainActivity : AppCompatActivity() {
         listNotes.clear()
 
         while (cursor.moveToNext()) {
-            println(cursor.getString(0))
-            println(cursor.getString(1))
-            println(cursor.getString(2))
             listNotes.add(note(cursor.getString(1), cursor.getString(2)))
         }
 
         recycler_view.adapter = adapter
         if(sharedPref.getLayout() == "Linear"){
-            println("On resume layout is linear")
             recycler_view.layoutManager = LinearLayoutManager(this)
         }
         else{
-            println("On resume layout is grid")
             recycler_view.layoutManager = GridLayoutManager(this, 2)
         }
         recycler_view.setHasFixedSize(true)
@@ -94,23 +105,30 @@ class MainActivity : AppCompatActivity() {
         var sharedPref = SharedPrefHandler(context)
         menuInflater.inflate(R.menu.main_menu, menu)
 
-        if (menu != null && sharedPref.getAccess()) {
-            menu.getItem(0).setIcon(R.drawable.pin_enable)
-        }
-        else if(menu != null && !sharedPref.getAccess()){
-            menu.getItem(0).setIcon(R.drawable.pin_disable)
-        }
-
-        if(menu != null && sharedPref.getLayout() == "Linear"){
-            menu.getItem(1).setTitle("Grid Layout")
-        }
-        else if(menu != null && sharedPref.getLayout() == "Grid"){
-            menu.getItem(1).setTitle("Linear Layout")
-        }
-
         if (menu != null) {
             optionsMenu = menu
         }
+//
+//        if (menu != null && sharedPref.getAccess()) {
+//            menu.getItem(0).setIcon(R.drawable.pin_enable)
+//            optionsMenu.findItem(R.id.pinSetting).setTitle("Reset Pin")
+//        }
+//        else if(menu != null && !sharedPref.getAccess() && sharedPref.getPin() != -1 && sharedPref.getPin() != 999999){
+//            menu.getItem(0).setIcon(R.drawable.pin_disable)
+//            optionsMenu.findItem(R.id.pinSetting).setTitle("Reset Pin")
+//        }
+//        else if(menu != null && !sharedPref.getAccess() && sharedPref.getPin() == -1 ){
+//            menu.getItem(0).setIcon(R.drawable.pin_disable)
+//            optionsMenu.findItem(R.id.pinSetting).setTitle("Setup Pin")
+//        }
+
+        if(menu != null && sharedPref.getLayout() == "Linear"){
+            menu.getItem(0).setTitle("Grid Layout")
+        }
+        else if(menu != null && sharedPref.getLayout() == "Grid"){
+            menu.getItem(0).setTitle("Linear Layout")
+        }
+
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -118,16 +136,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val sharedPref = SharedPrefHandler(context)
         when (item.itemId) {
-
             R.id.layout -> {
-                println("layout item clicked")
-                println(sharedPref.getLayout())
                 if(sharedPref.getLayout() == "Linear"){
                     recycler_view.layoutManager = GridLayoutManager(this,2)
                     item.setTitle("Linear Layout")
                     sharedPref.setLayout("Grid")
-                    println(".....")
-                    println(sharedPref.getLayout())
                     defaultLayout = 1
                 }
                 else{
@@ -137,52 +150,43 @@ class MainActivity : AppCompatActivity() {
                     defaultLayout = 0
                 }
             }
-            R.id.pinSetting -> {
-
-                if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1){
-                    //pin is there
-                    var intent = Intent(this, PinReset::class.java)
-                    println("Called PIN RESET - Negative btn")
-                    intent.putExtra("reset","true")
-                    startActivity(intent)
-                    finish()
-                }
-                else{
-                    var intent = Intent(this, Pin::class.java)
-                    println("Called PIN SETUP - Positive btn")
-                    startActivity(intent)
-                    finish()
-                }
-            }
-            R.id.pinOnOff -> {
-                if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1 && !sharedPref.getAccess()){
-                    //pin is there
-                    //Switch Icon here and show toast saying pin is turned on
-                    sharedPref.setAccess(true)
-                    item.setIcon(R.drawable.pin_enable)
-                    Toast.makeText(this, "Pin Enabled", Toast.LENGTH_LONG).show()
-
-                }
-                else if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1 && sharedPref.getAccess()){
-                    sharedPref.setAccess(false)
-                    item.setIcon(R.drawable.pin_disable)
-                    Toast.makeText(this, "Pin Disabled", Toast.LENGTH_LONG).show()
-                }
-                else{
-
-                    println(sharedPref.getPin())
-                    println(sharedPref.getAccess())
-
-                    Toast.makeText(this, "Setup a Pin from settings menu in top right icon", Toast.LENGTH_LONG).show()
-                }
-            }
-            R.id.deletePin -> {
-                sharedPref.deletePin()
-                println(item.itemId)
-                var item = optionsMenu.findItem(R.id.pinOnOff).setIcon(R.drawable.pin_disable)
-
-                Toast.makeText(this, "Pin Disabled", Toast.LENGTH_LONG).show()
-            }
+//            R.id.pinSetting -> {
+//                if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1){
+//                    //pin is there
+//                    var intent = Intent(this, PinReset::class.java)
+//                    intent.putExtra("reset","true")
+//                    startActivity(intent)
+//                    finish()
+//                }
+//                else{
+//                    var intent = Intent(this, Pin::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                }
+//            }
+//            R.id.pinOnOff -> {
+//                if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1 && !sharedPref.getAccess()){
+//                    //pin is there
+//                    //Switch Icon here and show toast saying pin is turned on
+//                    sharedPref.setAccess(true)
+//                    item.setIcon(R.drawable.pin_enable)
+//                    Toast.makeText(this, "Pin Enabled", Toast.LENGTH_LONG).show()
+//                }
+//                else if(sharedPref.getPin() != 999999 && sharedPref.getPin() != -1 && sharedPref.getAccess()){
+//                    sharedPref.setAccess(false)
+//                    item.setIcon(R.drawable.pin_disable)
+//                    Toast.makeText(this, "Pin Disabled", Toast.LENGTH_LONG).show()
+//                }
+//                else{
+//                    Toast.makeText(this, "Setup pin from settings menu at the top", Toast.LENGTH_LONG).show()
+//                }
+//            }
+//            R.id.deletePin -> {
+//                sharedPref.deletePin()
+//                optionsMenu.findItem(R.id.pinOnOff).setIcon(R.drawable.pin_disable)
+//                optionsMenu.findItem(R.id.pinSetting).setTitle("Setup Pin")
+//                Toast.makeText(this, "Pin Deleted", Toast.LENGTH_LONG).show()
+//            }
         }
         return super.onOptionsItemSelected(item)
     }

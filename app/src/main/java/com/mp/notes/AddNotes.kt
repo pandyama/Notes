@@ -43,6 +43,13 @@ class AddNotes : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        var intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+        super.onBackPressed()
+    }
+
     fun endActivity(view: View){
 
         if(noteName.text.toString() != "" && noteDesc.text.toString() != "") {

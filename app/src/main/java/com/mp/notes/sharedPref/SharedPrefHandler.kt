@@ -33,7 +33,7 @@ class SharedPrefHandler(context: Context) {
     }
 
     fun deletePin(){
-        preference.edit().putInt("Pincode", 999999).commit()
+        preference.edit().putInt("Pincode", -1).commit()
         preference.edit().putBoolean("Access",false).commit()
     }
 }

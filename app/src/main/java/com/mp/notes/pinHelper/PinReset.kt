@@ -10,11 +10,13 @@ import com.mp.notes.MainActivity
 import com.mp.notes.R
 import com.mp.notes.sharedPref.SharedPrefHandler
 import kotlinx.android.synthetic.main.activity_pin_reset.*
+import kotlinx.android.synthetic.main.content_pin.*
 import kotlinx.android.synthetic.main.content_pin_reset.*
+import kotlinx.android.synthetic.main.content_pin_reset.rOldPinText
 
 class PinReset : AppCompatActivity() {
-
     var numbers = ""
+    var numbersConfirm = ""
     var NumberClicked = ""
     var clickCounter = 0
     var confirmPin = 0
@@ -34,25 +36,19 @@ class PinReset : AppCompatActivity() {
                 numbers = ""
                 clickCounter = 0
                 newPin = 1
-                rpin1.setText("")
-                rpin2.setText("")
-                rpin3.setText("")
-                rpin4.setText("")
+                clearPinText()
                 rOldPinText.setText("Enter New Pin")
             }
             else if(newPin == 1){
-                if (clickCounter == 3) {
-                    println("..click counter is 3")
+                if (clickCounter == 4) {
                     if (confirmPin == 0) {
-                        rpin1.setText("")
-                        rpin2.setText("")
-                        rpin3.setText("")
-                        rpin4.setText("")
+                        numbersConfirm = numbers
+                        clearPinText()
                         rbtnOk.setText("Confirm")
                         clickCounter = 0
                         confirmPin++
                         numbers = ""
-                    } else {
+                    } else if(numbers == numbersConfirm){
                         clickCounter = 0
                         sharedPref.setPin(numbers.toInt())
                         pinEnabled = true
@@ -60,6 +56,14 @@ class PinReset : AppCompatActivity() {
                         var intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
+                    } else{
+                        Toast.makeText(this, "Pin does not match", Toast.LENGTH_LONG).show()
+                        clearPinText()
+                        rbtnOk.setText("OK")
+                        confirmPin = 0
+                        clickCounter = 0
+                        numbersConfirm = ""
+                        numbers = ""
                     }
                 }
             }
@@ -67,57 +71,49 @@ class PinReset : AppCompatActivity() {
                 numbers = ""
                 clickCounter = 0
                 Toast.makeText(this, "Incorrect pin", Toast.LENGTH_LONG).show()
-                rpin1.setText("")
-                rpin2.setText("")
-                rpin3.setText("")
-                rpin4.setText("")
+                clearPinText()
             }
         }
-
-
         rdelete.setOnClickListener{
-            if(rpin4.text.toString() != ""){
-                rpin4.setText("")
-                numbers = numbers.dropLast(1)
-                clickCounter = 3
-            }
-            else if(rpin3.text.toString() != ""){
-                rpin3.setText("")
-                numbers = numbers.dropLast(1)
-                clickCounter = 2
-            }
-            else if(rpin2.text.toString() != ""){
-                rpin2.setText("")
-                numbers = numbers.dropLast(1)
-                clickCounter = 1
-            }
-            else{
-                rpin1.setText("")
-                numbers = numbers.dropLast(1)
-                clickCounter = 0
-            }
+            clearPinText()
+            numbers = ""
+            clickCounter=0
         }
     }
 
     fun NumberClicked(view: View) {
         val button = view as Button
-        NumberClicked = button.text.toString()
-        numbers = numbers + NumberClicked
         if(clickCounter == 0){
+            NumberClicked = button.text.toString()
+            numbers = numbers + NumberClicked
             rpin1.setText("*")
             clickCounter++
         }
         else if(clickCounter == 1){
+            NumberClicked = button.text.toString()
+            numbers = numbers + NumberClicked
             rpin2.setText("*")
             clickCounter++
         }
         else if(clickCounter == 2){
+            NumberClicked = button.text.toString()
+            numbers = numbers + NumberClicked
             rpin3.setText("*")
             clickCounter++
         }
-        else{
+        else if(clickCounter == 3){
+            NumberClicked = button.text.toString()
+            numbers = numbers + NumberClicked
             rpin4.setText("*")
+            clickCounter++
         }
+    }
+
+    fun clearPinText(){
+        rpin1.setText("")
+        rpin2.setText("")
+        rpin3.setText("")
+        rpin4.setText("")
     }
 
 }

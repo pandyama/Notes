@@ -14,7 +14,6 @@ class Splashscreen : AppCompatActivity() {
     val context = this
     lateinit var dialog: AlertDialog
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splashscreen)
@@ -24,7 +23,12 @@ class Splashscreen : AppCompatActivity() {
         var pin:Int = sharedPref.getPin()
         var access = sharedPref.getAccess()
 
-        if(pin.equals(999999) && !access){ //default is 0
+
+        if(pin.equals(999999) && !access){ //default is 999999
+            println("INSIDE")
+            println(sharedPref.getAccess())
+            println(sharedPref.getPin())
+
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Setup a pin Now or Later")
             val dialogClickListener = DialogInterface.OnClickListener { _, which ->
@@ -46,8 +50,6 @@ class Splashscreen : AppCompatActivity() {
             builder.setNegativeButton("Later", dialogClickListener)
             dialog = builder.create()
             dialog.show()
-            dialog.dismiss()
-
         }
         else if(pin.equals(-1) && !access){ // Chose not to set the pin
             var intent = Intent(this, MainActivity::class.java)
@@ -67,13 +69,6 @@ class Splashscreen : AppCompatActivity() {
 
     }
 
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        if(dialog != null) {
-//            dialog.hide()
-//        }
-//    }
-
     override fun onPause() {
         super.onPause()
         if(dialog != null) {
@@ -86,15 +81,11 @@ class Splashscreen : AppCompatActivity() {
 
         val sharedPref = SharedPrefHandler(this)
         var pin:Int = sharedPref.getPin()
+        var access = sharedPref.getAccess()
 
-        if(pin.equals(999999)){
-            lateinit var dialog: AlertDialog
-            // Initialize a new instance of alert dialog builder object
+        if(pin.equals(999999) && !access){ //default is 999999
             val builder = AlertDialog.Builder(context)
-            // Set a title for alert dialog
             builder.setTitle("Setup a pin Now or Later")
-            // Set a message for alert dialog
-            // On click listener for dialog buttons
             val dialogClickListener = DialogInterface.OnClickListener { _, which ->
                 when (which) {
                     DialogInterface.BUTTON_POSITIVE -> {
@@ -111,21 +102,22 @@ class Splashscreen : AppCompatActivity() {
                 }
             }
             builder.setPositiveButton("Now", dialogClickListener)
-            // Set the alert dialog negative/no button
             builder.setNegativeButton("Later", dialogClickListener)
-            // Initialize the AlertDialog using builder object
             dialog = builder.create()
-            // Finally, display the alert dialog
             dialog.show()
-
         }
-        else if(pin.equals(-1)){
+        else if(pin.equals(-1) && !access){ // Chose not to set the pin
             var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
-        else{
+        else if(access && !pin.equals(-1) && !pin.equals(999999)){ // Pin got setup
             var intent = Intent(this, Pin::class.java)
+            startActivity(intent)
+            finish()
+        }
+        else{ // Pin
+            var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
