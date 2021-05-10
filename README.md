@@ -17,14 +17,12 @@ Available on Google Play Store
 
 Below is the look of the app
 
-![1](https://github.com/pandyama/Notes/blob/master/Capture2.PNG)
+![1](https://github.com/pandyama/Notes/blob/master/Capture.PNG)
 ---
 
-![2](https://github.com/pandyama/Notes/blob/master/Capture3.PNG)
+![2](https://github.com/pandyama/Notes/blob/master/Capture2.PNG)
 ---
 
-![3](https://github.com/pandyama/Notes/blob/master/Capture4.PNG)
+![3](https://github.com/pandyama/Notes/blob/master/Capture3.PNG)
 ---
-
-![4](https://github.com/pandyama/Notes/blob/master/Capture5.PNG)
 
